@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 setlocal
 
 :: 获取脚本所在的根目录
@@ -26,20 +27,26 @@ echo 正在启动后台 API 服务 (Port %API_PORT%)...
 cd /d "%ROOT_DIR%src\modules\media-crawler"
 :: 确保依赖已正确通过 uv 安装并在后台隐藏启动
 where uv >nul 2>nul
-if %ERRORLEVEL% equ 0 (
-    start "SHORT-V-DL Backend API" /B cmd /c "uv run python ../web-api/main.py --port %API_PORT% > "%API_LOG%" 2>&1"
-) else (
-    start "SHORT-V-DL Backend API" /B cmd /c ".venv\Scripts\python.exe ../web-api/main.py --port %API_PORT% > "%API_LOG%" 2>&1"
-)
+if %ERRORLEVEL% equ 0 goto USE_UV
+goto USE_VENV
 
+:USE_UV
+start "SHORT-V-DL Backend API" /B cmd /c uv run python ../web-api/main.py --port %API_PORT% ^> "%API_LOG%" 2^>^&1
+goto START_UI
+
+:USE_VENV
+start "SHORT-V-DL Backend API" /B cmd /c .venv\Scripts\python.exe ../web-api/main.py --port %API_PORT% ^> "%API_LOG%" 2^>^&1
+goto START_UI
+
+:START_UI
 echo 正在启动前端 UI 服务 (Port %UI_PORT%)...
 cd /d "%ROOT_DIR%src\modules\web-ui"
 :: 检查并自动安装 Node.js 模块
 if not exist "node_modules\" (
     echo 初次运行，正在安装前端依赖 (npm install)...
-    cmd /c "npm install >nul 2>&1"
+    call npm install >nul 2>&1
 )
-start "SHORT-V-DL Frontend UI" /B cmd /c "npm run dev -- --port %UI_PORT% --host > "%UI_LOG%" 2>&1"
+start "SHORT-V-DL Frontend UI" /B cmd /c npm run dev -- --port %UI_PORT% --host ^> "%UI_LOG%" 2^>^&1
 
 echo.
 echo =========================================
