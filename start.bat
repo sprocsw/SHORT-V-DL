@@ -32,6 +32,7 @@ goto USE_VENV
 
 :USE_UV
 echo 正在检查和安装后端环境与浏览器内核...
+echo 👉 (如果这是首次运行，后台需要静默下载数百MB的浏览器依赖，请耐心等待 1~3 分钟，切勿关闭...)
 call uv sync >nul 2>&1
 call uv run playwright install >nul 2>&1
 start "SHORT-V-DL Backend API" /B cmd /c uv run python ../web-api/main.py --port %API_PORT% ^> "%API_LOG%" 2^>^&1
@@ -39,6 +40,7 @@ goto START_UI
 
 :USE_VENV
 echo 正在检查和安装后端环境与浏览器内核 (内置虚拟环境)...
+echo 👉 (如果这是首次运行，后台需要静默下载数百MB的浏览器依赖，请耐心等待 1~3 分钟，切勿关闭...)
 call .venv\Scripts\python.exe -m pip install -r requirements.txt >nul 2>&1
 call .venv\Scripts\playwright.exe install >nul 2>&1
 start "SHORT-V-DL Backend API" /B cmd /c .venv\Scripts\python.exe ../web-api/main.py --port %API_PORT% ^> "%API_LOG%" 2^>^&1

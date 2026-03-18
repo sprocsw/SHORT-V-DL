@@ -41,6 +41,7 @@ if [[ -f "$PID_FILE" ]]; then
 fi
 
 echo "正在检查和安装后端环境与浏览器内核..."
+echo "👉 (如果这是首次运行，后台需要静默下载数百MB的浏览器依赖，请耐心等待 1~3 分钟，切勿关闭...)"
 cd "$ROOT_DIR/src/modules/media-crawler"
 # 启动 API 服务，确保使用 .venv 环境
 if command -v uv >/dev/null 2>&1; then
