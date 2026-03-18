@@ -1,343 +1,64 @@
-# 🔥 MediaCrawler - 自媒体平台爬虫 🕷️
+# 🚀 SHORT-V-DL (Short Video Downloader)
 
-<div align="center" markdown="1">
-   <sup>Special thanks to:</sup>
-   <br>
-   <br>
-   <a href="https://go.warp.dev/MediaCrawler">
-      <img alt="Warp sponsorship" width="400" src="https://github.com/warpdotdev/brand-assets/blob/main/Github/Sponsor/Warp-Github-LG-02.png?raw=true">
-   </a>
+轻量级、智能化的自媒体短视频批量提取与下载工具。
 
-### [Warp is built for coding with multiple AI agents](https://go.warp.dev/MediaCrawler)
+目前首发核心功能：**抖音 (Douyin) 无水印视频批量提取与全自动保存**
 
+---
 
-</div>
-<hr>
+## ⚡ 极其简单的部署说明 (One-Click Deploy)
 
-<div align="center">
+本项目采用现代化的前后端解耦架构（React 前端界面 + Python/FastAPI 后端引擎）。为了让您免去繁琐的配置，我们为您提供了**一键安装和启动的傻瓜式脚本**。
 
-<a href="https://trendshift.io/repositories/8291" target="_blank">
-  <img src="https://trendshift.io/api/badge/repositories/8291" alt="NanmiCoder%2FMediaCrawler | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
-</a>
+### 📋 环境要求
+- 你的操作系统已安装 **Python** (建议 3.10+) 
+- 你的操作系统已安装 **Node.js** (建议 16+)
 
-[![GitHub Stars](https://img.shields.io/github/stars/NanmiCoder/MediaCrawler?style=social)](https://github.com/NanmiCoder/MediaCrawler/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/NanmiCoder/MediaCrawler?style=social)](https://github.com/NanmiCoder/MediaCrawler/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/pulls)
-[![License](https://img.shields.io/github/license/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/blob/main/LICENSE)
-[![中文](https://img.shields.io/badge/🇨🇳_中文-当前-blue)](README.md)
-[![English](https://img.shields.io/badge/🇺🇸_English-Available-green)](README_en.md)
-[![Español](https://img.shields.io/badge/🇪🇸_Español-Available-green)](README_es.md)
-</div>
+### 🛠️ 快速启动
 
+**1. 准备一键启动套件**
 
-
-> **免责声明：**
-> 
-> 大家请以学习为目的使用本仓库⚠️⚠️⚠️⚠️，[爬虫违法违规的案件](https://github.com/HiddenStrawberry/Crawler_Illegal_Cases_In_China)  <br>
->
->本仓库的所有内容仅供学习和参考之用，禁止用于商业用途。任何人或组织不得将本仓库的内容用于非法用途或侵犯他人合法权益。本仓库所涉及的爬虫技术仅用于学习和研究，不得用于对其他平台进行大规模爬虫或其他非法行为。对于因使用本仓库内容而引起的任何法律责任，本仓库不承担任何责任。使用本仓库的内容即表示您同意本免责声明的所有条款和条件。
->
-> 点击查看更为详细的免责声明。[点击跳转](#disclaimer)
-
-
-
-
-## 📖 项目简介
-
-一个功能强大的**多平台自媒体数据采集工具**，支持小红书、抖音、快手、B站、微博、贴吧、知乎等主流平台的公开信息抓取。
-
-### 🔧 技术原理
-
-- **核心技术**：基于 [Playwright](https://playwright.dev/) 浏览器自动化框架登录保存登录态
-- **无需JS逆向**：利用保留登录态的浏览器上下文环境，通过 JS 表达式获取签名参数
-- **优势特点**：无需逆向复杂的加密算法，大幅降低技术门槛
-
-
-## ✨ 功能特性
-| 平台   | 关键词搜索 | 指定帖子ID爬取 | 二级评论 | 指定创作者主页 | 登录态缓存 | IP代理池 | 生成评论词云图 |
-| ------ | ---------- | -------------- | -------- | -------------- | ---------- | -------- | -------------- |
-| 小红书 | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
-| 抖音   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
-| 快手   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
-| B 站   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
-| 微博   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
-| 贴吧   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
-| 知乎   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
-
-
-
-<details>
-<summary>🚀 <strong>MediaCrawlerPro 重磅发布！开源不易，欢迎订阅支持</strong></summary>
-
-> 专注于学习成熟项目的架构设计，不仅仅是爬虫技术，Pro 版本的代码设计思路同样值得深入学习！
-
-[MediaCrawlerPro](https://github.com/MediaCrawlerPro) 相较于开源版本的核心优势：
-
-#### 🎯 核心功能升级
-- ✅ **断点续爬功能**（重点特性）
-- ✅ **多账号 + IP代理池支持**（重点特性）
-- ✅ **去除 Playwright 依赖**，使用更简单
-- ✅ **完整 Linux 环境支持**
-
-#### 🏗️ 架构设计优化
-- ✅ **代码重构优化**，更易读易维护（解耦 JS 签名逻辑）
-- ✅ **企业级代码质量**，适合构建大型爬虫项目
-- ✅ **完美架构设计**，高扩展性，源码学习价值更大
-
-#### 🎁 额外功能
-- ✅ **自媒体视频下载器桌面端**（适合学习全栈开发）
-- ✅ **多平台首页信息流推荐**（HomeFeed）
-- [ ] **基于自媒体平台的AI Agent正在开发中 🚀🚀**
-
-点击查看：[MediaCrawlerPro 项目主页](https://github.com/MediaCrawlerPro) 更多介绍
-
-</details>
-
-
-## 🚀 快速开始
-
-> 💡 **如果这个项目对您有帮助，请给个 ⭐ Star 支持一下！**
-
-## 📋 前置依赖
-
-### 🚀 uv 安装（推荐）
-
-在进行下一步操作之前，请确保电脑上已经安装了 uv：
-
-- **安装地址**：[uv 官方安装指南](https://docs.astral.sh/uv/getting-started/installation)
-- **验证安装**：终端输入命令 `uv --version`，如果正常显示版本号，证明已经安装成功
-- **推荐理由**：uv 是目前最强的 Python 包管理工具，速度快、依赖解析准确
-
-### 🟢 Node.js 安装
-
-项目依赖 Node.js，请前往官网下载安装：
-
-- **下载地址**：https://nodejs.org/en/download/
-- **版本要求**：>= 16.0.0
-
-## 🚀 极其简单的快速开始 (One-Click Start)
-
-> 💡 **如果您是从 GitHub 下载本代码的新用户，您不需要手动一步步安装环境**！我们已经为您准备了自动化的启动脚本。您只需确保电脑上已经安装了 Python (建议 3.10+) 和 Node.js (16+)。
-
-### 1. 赋予脚本运行权限 (Mac / Linux)
-
-```shell
-cd SHORT-V-DL
+在终端（Terminal）进入本项目根目录，赋予脚本运行权限：
+```bash
 chmod +x start.sh stop.sh
 ```
 
-### 2. 一键安装依赖并启动服务
+**2. 启动服务**
 
-```shell
+执行以下命令：
+```bash
 ./start.sh
 ```
+> **首次运行提醒**：脚本初次启动时需要几分钟时间。它会自动穿越到前端和后端目录，执行所有底层依赖的下载安装 (`npm install` & `uv sync/pip`)，并自动为您本地安装必须的无头浏览器内核 (`playwright install`)。配置完毕后，它会自动并排拉起各项服务集群。
 
-**就这么简单！** `start.sh` 脚本在第一次运行时，会自动进入后端 (Python) 下载所有必要的第三方库及 Playwright 浏览器驱动，并自动进入前端 (Node.js) 下载所有 npm 依赖！安装完毕后，它会自动在后台监控端口并启动 Web UI 控制平台。默认的前端地址是 `http://localhost:8080`。
+**3. 开始使用**
 
-### 3. 一键停止服务
+服务成功启动后，直接在浏览器中访问您的前端可视化控制台：
+👉 **http://localhost:8080** 
 
-如果您想关闭爬虫系统并释放端口，只需执行：
+**4. 结束使用**
 
-```shell
+当您使用完毕，想彻底切断后台的爬虫引擎并释放被占用的端口资源时，只需一键化清理：
+```bash
 ./stop.sh
 ```
 
-## 🛠️ 后台手动架构与调试 (供二次开发者使用)
+---
 
-如果您不希望使用一键脚本，下面是整个前后端独立启动的原始执行方式。
+## 📁 核心目录结构
 
-```shell
-# 在 config/base_config.py 查看配置项目功能，写的有中文注释
+本项目严格遵循高内聚低耦合的架构规范进行了深度瘦身重构。
 
-# 从配置文件中读取关键词搜索相关的帖子并爬取帖子信息与评论
-uv run main.py --platform xhs --lt qrcode --type search
-
-# 从配置文件中读取指定的帖子ID列表获取指定帖子的信息与评论信息
-uv run main.py --platform xhs --lt qrcode --type detail
-
-# 打开对应APP扫二维码登录
-
-# 其他平台爬虫使用示例，执行下面的命令查看
-uv run main.py --help
-```
-
-## WebUI支持
-
-<details>
-<summary>🖥️ <strong>WebUI 可视化操作界面</strong></summary>
-
-MediaCrawler 提供了基于 Web 的可视化操作界面，无需命令行也能轻松使用爬虫功能。
-
-#### 启动 WebUI 服务
-
-```shell
-# 启动 API 服务器（默认端口 8080）
-uv run uvicorn api.main:app --port 8080 --reload
-
-# 或者使用模块方式启动
-uv run python -m api.main
-```
-
-启动成功后，访问 `http://localhost:8080` 即可打开 WebUI 界面。
-
-#### WebUI 功能特性
-
-- 可视化配置爬虫参数（平台、登录方式、爬取类型等）
-- 实时查看爬虫运行状态和日志
-- 数据预览和导出
-
-#### 界面预览
-
-<img src="docs/static/images/img_8.png" alt="WebUI 界面预览">
-
-</details>
-
-<details>
-<summary>🔗 <strong>使用 Python 原生 venv 管理环境（不推荐）</strong></summary>
-
-#### 创建并激活 Python 虚拟环境
-
-> 如果是爬取抖音和知乎，需要提前安装 nodejs 环境，版本大于等于：`16` 即可
-
-```shell
-# 进入项目根目录
-cd MediaCrawler
-
-# 创建虚拟环境
-# 我的 python 版本是：3.11 requirements.txt 中的库是基于这个版本的
-# 如果是其他 python 版本，可能 requirements.txt 中的库不兼容，需自行解决
-python -m venv venv
-
-# macOS & Linux 激活虚拟环境
-source venv/bin/activate
-
-# Windows 激活虚拟环境
-venv\Scripts\activate
-```
-
-#### 安装依赖库
-
-```shell
-pip install -r requirements.txt
-```
-
-#### 安装 playwright 浏览器驱动
-
-```shell
-playwright install
-```
-
-#### 运行爬虫程序（原生环境）
-
-```shell
-# 项目默认是没有开启评论爬取模式，如需评论请在 config/base_config.py 中的 ENABLE_GET_COMMENTS 变量修改
-# 一些其他支持项，也可以在 config/base_config.py 查看功能，写的有中文注释
-
-# 从配置文件中读取关键词搜索相关的帖子并爬取帖子信息与评论
-python main.py --platform xhs --lt qrcode --type search
-
-# 从配置文件中读取指定的帖子ID列表获取指定帖子的信息与评论信息
-python main.py --platform xhs --lt qrcode --type detail
-
-# 打开对应APP扫二维码登录
-
-# 其他平台爬虫使用示例，执行下面的命令查看
-python main.py --help
-```
-
-</details>
-
-
-## 💾 数据保存
-
-MediaCrawler 支持多种数据存储方式，包括 CSV、JSON、Excel、SQLite 和 MySQL 数据库。
-
-📖 **详细使用说明请查看：[数据存储指南](docs/data_storage_guide.md)**
-
-
-[🚀 MediaCrawlerPro 重磅发布 🚀！更多的功能，更好的架构设计！开源不易，欢迎订阅支持！](https://github.com/MediaCrawlerPro)
-
-
-### 💬 交流群组
-- **微信交流群**：[点击加入](https://nanmicoder.github.io/MediaCrawler/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.html)
-
-
-### 💰 赞助商展示
-
-<a href="https://h.wandouip.com">
-<img src="docs/static/images/img_8.jpg">
-<br>
-豌豆HTTP自营千万级IP资源池，IP纯净度≥99.8%，每日保持IP高频更新，快速响应，稳定连接,满足多种业务场景，支持按需定制，注册免费提取10000ip。
-</a>
+- `/start.sh` & `/stop.sh`: 项目的命脉，跨语言环境一键启停脚本。
+- `/RULES.md`: 本项目遵循的 AI 全局协作与开发编码规范。
+- `/src/modules/web-ui/`: 基于 `React` + `Vite` 构建的现代化前端纯视觉交互层。
+- `/src/modules/media-crawler/`: 基于 `Python` + `FastAPI` 构建的核心下载调度 API，内部承载了强悍的无头浏览器实例与各平台复杂的 JS 签名解析算法。
+- `/docs/`: 提供给二次开发者的架构模块文档。
 
 ---
 
-<a href="https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad">
-<img width="500" src="docs/static/images/tikhub_banner_zh.png">
-<br>
-TikHub.io 提供 900+ 高稳定性数据接口，覆盖 TK、DY、XHS、Y2B、Ins、X 等 14+ 海内外主流平台，支持用户、内容、商品、评论等多维度公开数据 API，并配套 4000 万+ 已清洗结构化数据集，使用邀请码 <code>cfzyejV9</code> 注册并充值，即可额外获得 $2 赠送额度。
-</a>
+## 💡 使用小贴士 (Tips)
 
----
-
-<a href="https://www.thordata.com/?ls=github&lk=mediacrawler">
-<img width="500" src="docs/static/images/Thordata.png">
-<br>
-Thordata：可靠且经济高效的代理服务提供商。为企业和开发者提供稳定、高效且合规的全球代理 IP 服务。立即注册，赠送1GB住宅代理免费试用和2000次serp-api调用。
-</a>
-<br>
-<a href="https://www.thordata.com/products/residential-proxies/?ls=github&lk=mediacrawler">【住宅代理】</a> | <a href="https://www.thordata.com/products/web-scraper/?ls=github&lk=mediacrawler">【serp-api】</a>
-
-
-### 🤝 成为赞助者
-
-成为赞助者，可以将您的产品展示在这里，每天获得大量曝光！
-
-**联系方式**：
-- 微信：`relakkes`
-- 邮箱：`relakkes@gmail.com`
----
-
-### 📚 其他
-- **常见问题**：[MediaCrawler 完整文档](https://nanmicoder.github.io/MediaCrawler/)
-- **爬虫入门教程**：[CrawlerTutorial 免费教程](https://github.com/NanmiCoder/CrawlerTutorial)
-- **新闻爬虫开源项目**：[NewsCrawlerCollection](https://github.com/NanmiCoder/NewsCrawlerCollection)
-
-
-## ⭐ Star 趋势图
-
-如果这个项目对您有帮助，请给个 ⭐ Star 支持一下，让更多的人看到 MediaCrawler！
-
-[![Star History Chart](https://api.star-history.com/svg?repos=NanmiCoder/MediaCrawler&type=Date)](https://star-history.com/#NanmiCoder/MediaCrawler&Date)
-
-
-## 📚 参考
-
-- **小红书签名仓库**：[Cloxl 的 xhs 签名仓库](https://github.com/Cloxl/xhshow)
-- **小红书客户端**：[ReaJason 的 xhs 仓库](https://github.com/ReaJason/xhs)
-- **短信转发**：[SmsForwarder 参考仓库](https://github.com/pppscn/SmsForwarder)
-- **内网穿透工具**：[ngrok 官方文档](https://ngrok.com/docs/)
-
-
-# 免责声明
-<div id="disclaimer"> 
-
-## 1. 项目目的与性质
-本项目（以下简称“本项目”）是作为一个技术研究与学习工具而创建的，旨在探索和学习网络数据采集技术。本项目专注于自媒体平台的数据爬取技术研究，旨在提供给学习者和研究者作为技术交流之用。
-
-## 2. 法律合规性声明
-本项目开发者（以下简称“开发者”）郑重提醒用户在下载、安装和使用本项目时，严格遵守中华人民共和国相关法律法规，包括但不限于《中华人民共和国网络安全法》、《中华人民共和国反间谍法》等所有适用的国家法律和政策。用户应自行承担一切因使用本项目而可能引起的法律责任。
-
-## 3. 使用目的限制
-本项目严禁用于任何非法目的或非学习、非研究的商业行为。本项目不得用于任何形式的非法侵入他人计算机系统，不得用于任何侵犯他人知识产权或其他合法权益的行为。用户应保证其使用本项目的目的纯属个人学习和技术研究，不得用于任何形式的非法活动。
-
-## 4. 免责声明
-开发者已尽最大努力确保本项目的正当性及安全性，但不对用户使用本项目可能引起的任何形式的直接或间接损失承担责任。包括但不限于由于使用本项目而导致的任何数据丢失、设备损坏、法律诉讼等。
-
-## 5. 知识产权声明
-本项目的知识产权归开发者所有。本项目受到著作权法和国际著作权条约以及其他知识产权法律和条约的保护。用户在遵守本声明及相关法律法规的前提下，可以下载和使用本项目。
-
-## 6. 最终解释权
-关于本项目的最终解释权归开发者所有。开发者保留随时更改或更新本免责声明的权利，恕不另行通知。
-</div>
+关于防封与 Cookie 保护：
+当您在新版 Web 界面中点击**「拉起扫码登录」**时，后台会在您的本地真实弹出一个纯净的无痕浏览器供您用手机扫码。
+扫码成功获取身份后，您可以尽情地批量下载视频。使用完毕后，只需点击**「关闭后台浏览器」**按钮即可悄声无息地释放内存。系统会在本地妥善为您加密缓存这一次的成功会话（Cookie），方便几天内免扫码复用！
