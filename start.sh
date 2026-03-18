@@ -40,12 +40,16 @@ if [[ -f "$PID_FILE" ]]; then
     rm -f "$PID_FILE"
 fi
 
-echo "正在启动后台 API 服务 (Port $API_PORT)..."
+echo "正在检查和安装后端环境与浏览器内核..."
 cd "$ROOT_DIR/src/modules/media-crawler"
 # 启动 API 服务，确保使用 .venv 环境
 if command -v uv >/dev/null 2>&1; then
+    uv sync > /dev/null 2>&1
+    uv run playwright install > /dev/null 2>&1
     nohup uv run python ../web-api/main.py --port "$API_PORT" > "$API_LOG" 2>&1 &
 else
+    .venv/bin/python -m pip install -r requirements.txt > /dev/null 2>&1 || true
+    .venv/bin/playwright install > /dev/null 2>&1 || true
     nohup .venv/bin/python ../web-api/main.py --port "$API_PORT" > "$API_LOG" 2>&1 &
 fi
 API_PID=$!

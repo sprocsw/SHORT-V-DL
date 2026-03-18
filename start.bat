@@ -31,10 +31,16 @@ if %ERRORLEVEL% equ 0 goto USE_UV
 goto USE_VENV
 
 :USE_UV
+echo 正在检查和安装后端环境与浏览器内核...
+call uv sync >nul 2>&1
+call uv run playwright install >nul 2>&1
 start "SHORT-V-DL Backend API" /B cmd /c uv run python ../web-api/main.py --port %API_PORT% ^> "%API_LOG%" 2^>^&1
 goto START_UI
 
 :USE_VENV
+echo 正在检查和安装后端环境与浏览器内核 (内置虚拟环境)...
+call .venv\Scripts\python.exe -m pip install -r requirements.txt >nul 2>&1
+call .venv\Scripts\playwright.exe install >nul 2>&1
 start "SHORT-V-DL Backend API" /B cmd /c .venv\Scripts\python.exe ../web-api/main.py --port %API_PORT% ^> "%API_LOG%" 2^>^&1
 goto START_UI
 
