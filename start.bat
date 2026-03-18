@@ -42,10 +42,11 @@ goto START_UI
 echo 正在启动前端 UI 服务 (Port %UI_PORT%)...
 cd /d "%ROOT_DIR%src\modules\web-ui"
 :: 检查并自动安装 Node.js 模块
-if not exist "node_modules\" (
-    echo 初次运行，正在安装前端依赖 (npm install)...
-    call npm install >nul 2>&1
-)
+if exist "node_modules\" goto SKIP_NPM
+echo 初次运行，正在安装前端依赖 npm install ...
+call npm install >nul 2>&1
+
+:SKIP_NPM
 start "SHORT-V-DL Frontend UI" /B cmd /c npm run dev -- --port %UI_PORT% --host ^> "%UI_LOG%" 2^>^&1
 
 echo.
