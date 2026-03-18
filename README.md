@@ -18,17 +18,17 @@
 
 **1. 准备一键启动套件**
 
-在终端（Terminal）进入本项目根目录，赋予脚本运行权限：
-```bash
-chmod +x start.sh stop.sh
-```
+- **Mac / Linux 用户**: 在终端（Terminal）赋予脚本运行权限：
+  ```bash
+  chmod +x start.sh stop.sh
+  ```
+- **Windows 用户**: 您无需赋予权限，可直接双击运行 `.bat` 批处理文件。
 
 **2. 启动服务**
 
-执行以下命令：
-```bash
-./start.sh
-```
+- **Mac / Linux**: 执行 `./start.sh`
+- **Windows**: 直接双击运行包内的 `start.bat`
+
 > **首次运行提醒**：脚本初次启动时需要几分钟时间。它会自动穿越到前端和后端目录，执行所有底层依赖的下载安装 (`npm install` & `uv sync/pip`)，并自动为您本地安装必须的无头浏览器内核 (`playwright install`)。配置完毕后，它会自动并排拉起各项服务集群。
 
 **3. 开始使用**
