@@ -116,24 +116,36 @@
 - **下载地址**：https://nodejs.org/en/download/
 - **版本要求**：>= 16.0.0
 
-### 📦 Python 包安装
+## 🚀 极其简单的快速开始 (One-Click Start)
+
+> 💡 **如果您是从 GitHub 下载本代码的新用户，您不需要手动一步步安装环境**！我们已经为您准备了自动化的启动脚本。您只需确保电脑上已经安装了 Python (建议 3.10+) 和 Node.js (16+)。
+
+### 1. 赋予脚本运行权限 (Mac / Linux)
 
 ```shell
-# 进入项目目录
-cd MediaCrawler
-
-# 使用 uv sync 命令来保证 python 版本和相关依赖包的一致性
-uv sync
+cd SHORT-V-DL
+chmod +x start.sh stop.sh
 ```
 
-### 🌐 浏览器驱动安装
+### 2. 一键安装依赖并启动服务
 
 ```shell
-# 安装浏览器驱动
-uv run playwright install
+./start.sh
 ```
 
-## 🚀 运行爬虫程序
+**就这么简单！** `start.sh` 脚本在第一次运行时，会自动进入后端 (Python) 下载所有必要的第三方库及 Playwright 浏览器驱动，并自动进入前端 (Node.js) 下载所有 npm 依赖！安装完毕后，它会自动在后台监控端口并启动 Web UI 控制平台。默认的前端地址是 `http://localhost:8080`。
+
+### 3. 一键停止服务
+
+如果您想关闭爬虫系统并释放端口，只需执行：
+
+```shell
+./stop.sh
+```
+
+## 🛠️ 后台手动架构与调试 (供二次开发者使用)
+
+如果您不希望使用一键脚本，下面是整个前后端独立启动的原始执行方式。
 
 ```shell
 # 在 config/base_config.py 查看配置项目功能，写的有中文注释
