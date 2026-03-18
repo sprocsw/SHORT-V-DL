@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Douyin Video Downloader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0f1a;
+        --panel: #121826;
+        --panel-2: #0e1320;
+        --accent: #32d8c7;
+        --accent-2: #ff5c9a;
+        --text: #e6edf3;
+        --muted: #9aa4b2;
+        --border: rgba(255, 255, 255, 0.08);
+        --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        background: radial-gradient(circle at top, #1a2438 0%, #0b0f1a 55%);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        padding: 48px 20px;
+      }
+
+      .shell {
+        width: min(960px, 100%);
+        display: grid;
+        gap: 24px;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, rgba(50, 216, 199, 0.16), rgba(255, 92, 154, 0.1));
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero h1 {
+        margin: 0 0 8px;
+        font-size: clamp(24px, 4vw, 36px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+        display: grid;
+        gap: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      label {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 140px;
+        resize: vertical;
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        color: var(--text);
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 13px;
+        line-height: 1.6;
+        outline: none;
+      }
+
+      textarea:focus {
+        border-color: rgba(50, 216, 199, 0.6);
+        box-shadow: 0 0 0 3px rgba(50, 216, 199, 0.15);
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .cookie-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .helper {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      button {
+        border: none;
+        border-radius: 999px;
+        padding: 12px 20px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .primary {
+        background: var(--accent);
+        color: #05121a;
+        box-shadow: 0 12px 30px rgba(50, 216, 199, 0.3);
+      }
+
+      .secondary {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .status {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .result-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .result-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .result-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .result-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .result-card {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 14px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .result-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .result-index {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .result-status {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--muted);
+      }
+
+      .status-ready {
+        color: #0b1f1b;
+        background: rgba(50, 216, 199, 0.8);
+      }
+
+      .status-error {
+        color: #1a0c14;
+        background: rgba(255, 92, 154, 0.7);
+      }
+
+      .status-parsing,
+      .status-downloading {
+        color: #04111b;
+        background: rgba(94, 161, 255, 0.8);
+      }
+
+      .result-field {
+        display: grid;
+        gap: 4px;
+      }
+
+      .result-field span {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+      }
+
+      .result-field code,
+      .result-field a {
+        font-size: 12px;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        color: var(--text);
+        word-break: break-all;
+      }
+
+      .result-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .result-item {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px 14px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .result-item span {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+      }
+
+      .result-item a,
+      .result-item code {
+        color: var(--text);
+        font-size: 13px;
+        word-break: break-all;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+
+      .footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      @media (max-width: 720px) {
+        body {
+          padding: 32px 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <h1>Douyin Video Downloader</h1>
+        <p>Paste multiple Douyin share texts or links, parse them in batch, and download videos in sequence.</p>
+      </section>
+
+      <section class="panel">
+        <label for="input">Share Text / Link</label>
+        <textarea
+          id="input"
+          placeholder="Example:
+2.89 DHV:/ d@n.QK 07/06 ... https://v.douyin.com/JFGj57FxDHg/ ..."
+        ></textarea>
+
+        <label for="cookie">Douyin Cookie (optional)</label>
+        <textarea
+          id="cookie"
+          placeholder="Paste your Douyin cookie if download fails without login."
+          style="min-height: 80px"
+        ></textarea>
+        <div class="cookie-actions">
+          <button class="secondary" id="save-cookie-btn">Save Cookie (12h)</button>
+          <button class="secondary" id="clear-cookie-btn">Clear Cookie</button>
+          <button class="secondary" id="login-open-btn">Open Login Browser</button>
+          <button class="secondary" id="login-read-btn">Load Cookie from Login</button>
+          <span class="helper" id="cookie-status">Cookie not saved.</span>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="parse-btn">Parse All</button>
+          <button class="secondary" id="download-btn" disabled>Download All</button>
+          <button class="secondary" id="clear-btn">Clear</button>
+        </div>
+        <div class="status" id="status">Waiting for input...</div>
+      </section>
+
+      <section class="panel">
+        <div class="result-header">
+          <div>
+            <h2 class="result-title">Parsed Items</h2>
+            <div class="status" id="summary">No items parsed.</div>
+          </div>
+        </div>
+        <div class="result-list" id="result-list"></div>
+      </section>
+
+      <div class="footer">
+        Back to WebUI: <a href="/" style="color: var(--accent)">MediaCrawler</a>
+      </div>
+    </main>
+
+    <script>
+      const input = document.getElementById("input");
+      const parseBtn = document.getElementById("parse-btn");
+      const downloadBtn = document.getElementById("download-btn");
+      const clearBtn = document.getElementById("clear-btn");
+      const cookieInput = document.getElementById("cookie");
+      const saveCookieBtn = document.getElementById("save-cookie-btn");
+      const clearCookieBtn = document.getElementById("clear-cookie-btn");
+      const loginOpenBtn = document.getElementById("login-open-btn");
+      const loginReadBtn = document.getElementById("login-read-btn");
+      const cookieStatus = document.getElementById("cookie-status");
+      const statusEl = document.getElementById("status");
+      const summaryEl = document.getElementById("summary");
+      const resultList = document.getElementById("result-list");
+
+      let parsedItems = [];
+      const COOKIE_CACHE_KEY = "douyin_cookie_cache";
+      const COOKIE_CACHE_TS_KEY = "douyin_cookie_cache_ts";
+      const COOKIE_TTL_MS = 12 * 60 * 60 * 1000;
+
+      function setStatus(message, isError = false) {
+        statusEl.textContent = message;
+        statusEl.style.color = isError ? "#ff5c9a" : "var(--muted)";
+      }
+
+      function updateCookieStatus(message, isError = false) {
+        cookieStatus.textContent = message;
+        cookieStatus.style.color = isError ? "#ff5c9a" : "var(--muted)";
+      }
+
+      function sanitizeCandidate(value) {
+        return value.replace(/[\"'”’），。！!？?)\\]}>]+$/g, "");
+      }
+
+      function extractItemsFromInput(text) {
+        const candidates = [];
+        const urlRegex = /https?:\/\/[^\s]+/g;
+        const hostRegex =
+          /(v\.douyin\.com\/[A-Za-z0-9]+\/?|(?:www\.)?douyin\.com\/[^\s]+|iesdouyin\.com\/[^\s]+)/g;
+        const idRegex = /\b\d{10,}\b/g;
+
+        const urlMatches = text.match(urlRegex) || [];
+        urlMatches.forEach((value) => candidates.push(value));
+
+        const hostMatches = text.match(hostRegex) || [];
+        hostMatches.forEach((value) => {
+          if (!value.startsWith("http")) {
+            candidates.push(`https://${value}`);
+          } else {
+            candidates.push(value);
+          }
+        });
+
+        const idMatches = text.match(idRegex) || [];
+        idMatches.forEach((value) => candidates.push(value));
+
+        const seen = new Set();
+        const result = [];
+        candidates.forEach((value) => {
+          const cleaned = sanitizeCandidate(value.trim());
+          if (!cleaned) {
+            return;
+          }
+          if (seen.has(cleaned)) {
+            return;
+          }
+          seen.add(cleaned);
+          result.push(cleaned);
+        });
+
+        if (result.length === 0 && text.trim()) {
+          result.push(text.trim());
+        }
+        return result;
+      }
+
+      function getStatusLabel(status) {
+        switch (status) {
+          case "parsing":
+            return "PARSING";
+          case "ready":
+            return "READY";
+          case "error":
+            return "ERROR";
+          case "downloading":
+            return "DOWNLOADING";
+          case "downloaded":
+            return "DOWNLOADED";
+          default:
+            return "PENDING";
+        }
+      }
+
+      function getStatusClass(status) {
+        if (status === "ready" || status === "downloaded") {
+          return "result-status status-ready";
+        }
+        if (status === "error") {
+          return "result-status status-error";
+        }
+        if (status === "parsing" || status === "downloading") {
+          return "result-status status-parsing";
+        }
+        return "result-status";
+      }
+
+      function renderField(label, value, link = false) {
+        const field = document.createElement("div");
+        field.className = "result-field";
+
+        const labelEl = document.createElement("span");
+        labelEl.textContent = label;
+        field.appendChild(labelEl);
+
+        if (link && value) {
+          const anchor = document.createElement("a");
+          anchor.href = value;
+          anchor.target = "_blank";
+          anchor.rel = "noopener";
+          anchor.textContent = value;
+          field.appendChild(anchor);
+        } else {
+          const code = document.createElement("code");
+          code.textContent = value || "-";
+          field.appendChild(code);
+        }
+
+        return field;
+      }
+
+      function renderResults() {
+        resultList.innerHTML = "";
+        if (parsedItems.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "status";
+          empty.textContent = "No items yet.";
+          resultList.appendChild(empty);
+          return;
+        }
+
+        parsedItems.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "result-card";
+
+          const head = document.createElement("div");
+          head.className = "result-head";
+
+          const indexEl = document.createElement("div");
+          indexEl.className = "result-index";
+          indexEl.textContent = `Item ${index + 1}`;
+
+          const statusEl = document.createElement("div");
+          statusEl.className = getStatusClass(item.status);
+          statusEl.textContent = getStatusLabel(item.status);
+
+          head.appendChild(indexEl);
+          head.appendChild(statusEl);
+          card.appendChild(head);
+
+          card.appendChild(renderField("Input", item.input));
+          card.appendChild(renderField("Extracted URL", item.extracted_url, true));
+          card.appendChild(renderField("Resolved URL", item.resolved_url, true));
+          card.appendChild(renderField("Aweme ID", item.aweme_id));
+
+          if (item.error) {
+            card.appendChild(renderField("Error", item.error));
+          }
+
+          const actions = document.createElement("div");
+          actions.className = "result-actions";
+
+          const downloadSingle = document.createElement("button");
+          downloadSingle.className = "secondary";
+          downloadSingle.textContent = "Download";
+          downloadSingle.disabled = item.status !== "ready";
+          downloadSingle.addEventListener("click", () => downloadItem(index));
+          actions.appendChild(downloadSingle);
+
+          card.appendChild(actions);
+          resultList.appendChild(card);
+        });
+      }
+
+      function updateSummary() {
+        const total = parsedItems.length;
+        const readyCount = parsedItems.filter((item) => item.status === "ready").length;
+        const errorCount = parsedItems.filter((item) => item.status === "error").length;
+        summaryEl.textContent = `${total} items · ${readyCount} ready · ${errorCount} failed`;
+        downloadBtn.disabled = readyCount === 0;
+      }
+
+      function updateItem(index, updates) {
+        parsedItems[index] = { ...parsedItems[index], ...updates };
+        renderResults();
+        updateSummary();
+      }
+
+      async function parseAll() {
+        const text = input.value.trim();
+        if (!text) {
+          setStatus("Please paste Douyin share text or links.", true);
+          return;
+        }
+        const candidates = extractItemsFromInput(text);
+        if (candidates.length === 0) {
+          setStatus("No valid links found.", true);
+          return;
+        }
+
+        parsedItems = candidates.map((value) => ({
+          input: value,
+          extracted_url: "",
+          resolved_url: "",
+          aweme_id: "",
+          status: "parsing",
+          error: "",
+        }));
+
+        renderResults();
+        updateSummary();
+        setStatus(`Parsing ${candidates.length} items...`);
+
+        for (let i = 0; i < parsedItems.length; i += 1) {
+          updateItem(i, { status: "parsing", error: "" });
+          try {
+            const res = await fetch("/api/douyin/parse", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ text: parsedItems[i].input }),
+            });
+            if (!res.ok) {
+              const detail = await res.json();
+              throw new Error(detail.detail || "Failed to parse link");
+            }
+            const data = await res.json();
+            updateItem(i, {
+              extracted_url: data.extracted_url || "",
+              resolved_url: data.resolved_url || "",
+              aweme_id: data.aweme_id || "",
+              status: data.aweme_id ? "ready" : "error",
+              error: data.aweme_id ? "" : "Missing aweme_id",
+            });
+          } catch (err) {
+            updateItem(i, { status: "error", error: err.message || "Parse failed." });
+          }
+        }
+
+        setStatus("Parsing completed.");
+      }
+
+      async function downloadItem(index) {
+        const item = parsedItems[index];
+        if (!item || item.status !== "ready") {
+          setStatus("Item is not ready to download.", true);
+          return;
+        }
+        const cookie = cookieInput.value.trim();
+        updateItem(index, { status: "downloading" });
+        try {
+          const res = await fetch("/api/douyin/download", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ aweme_id: item.aweme_id, cookie }),
+          });
+          if (!res.ok) {
+            const detail = await res.json();
+            throw new Error(detail.detail || "Download failed.");
+          }
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          const anchor = document.createElement("a");
+          anchor.href = url;
+          anchor.download = `${item.aweme_id}.mp4`;
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+          URL.revokeObjectURL(url);
+          updateItem(index, { status: "downloaded" });
+        } catch (err) {
+          updateItem(index, { status: "error", error: err.message || "Download failed." });
+        }
+      }
+
+      async function downloadAll() {
+        const readyIndexes = parsedItems
+          .map((item, index) => ({ item, index }))
+          .filter(({ item }) => item.status === "ready");
+
+        if (readyIndexes.length === 0) {
+          setStatus("No ready items to download.", true);
+          return;
+        }
+
+        setStatus(`Downloading ${readyIndexes.length} items...`);
+        for (const { index } of readyIndexes) {
+          await downloadItem(index);
+          await new Promise((resolve) => setTimeout(resolve, 600));
+        }
+        setStatus("All downloads completed.");
+      }
+
+      function clearAll() {
+        parsedItems = [];
+        renderResults();
+        updateSummary();
+        setStatus("Cleared.");
+      }
+
+      function loadCachedCookie() {
+        const cached = localStorage.getItem(COOKIE_CACHE_KEY);
+        const cachedAt = localStorage.getItem(COOKIE_CACHE_TS_KEY);
+        if (!cached || !cachedAt) {
+          updateCookieStatus("Cookie not saved.");
+          return;
+        }
+        const age = Date.now() - Number(cachedAt);
+        if (Number.isNaN(age) || age > COOKIE_TTL_MS) {
+          localStorage.removeItem(COOKIE_CACHE_KEY);
+          localStorage.removeItem(COOKIE_CACHE_TS_KEY);
+          updateCookieStatus("Cookie expired.");
+          return;
+        }
+        cookieInput.value = cached;
+        updateCookieStatus("Cookie loaded (valid for 12h).");
+      }
+
+      function saveCookie() {
+        const cookie = cookieInput.value.trim();
+        if (!cookie) {
+          updateCookieStatus("No cookie to save.", true);
+          return;
+        }
+        localStorage.setItem(COOKIE_CACHE_KEY, cookie);
+        localStorage.setItem(COOKIE_CACHE_TS_KEY, Date.now().toString());
+        updateCookieStatus("Cookie saved (12h).");
+      }
+
+      function clearCookie() {
+        localStorage.removeItem(COOKIE_CACHE_KEY);
+        localStorage.removeItem(COOKIE_CACHE_TS_KEY);
+        cookieInput.value = "";
+        updateCookieStatus("Cookie cleared.");
+      }
+
+      async function openLoginBrowser() {
+        updateCookieStatus("Opening login browser...");
+        try {
+          const res = await fetch("/api/douyin/login/open", { method: "POST" });
+          if (!res.ok) {
+            const detail = await res.json();
+            throw new Error(detail.detail || "Failed to open login browser.");
+          }
+          updateCookieStatus("Login browser opened. Please log in to Douyin.");
+        } catch (err) {
+          updateCookieStatus(err.message || "Failed to open login browser.", true);
+        }
+      }
+
+      async function readLoginCookie() {
+        updateCookieStatus("Reading login state...");
+        try {
+          const res = await fetch("/api/douyin/login/cookie");
+          if (!res.ok) {
+            const detail = await res.json();
+            throw new Error(detail.detail || "Login state not found.");
+          }
+          const data = await res.json();
+          if (!data.cookie) {
+            throw new Error("Login cookie is empty.");
+          }
+          cookieInput.value = data.cookie;
+          localStorage.setItem(COOKIE_CACHE_KEY, data.cookie);
+          localStorage.setItem(COOKIE_CACHE_TS_KEY, Date.now().toString());
+          updateCookieStatus("Cookie loaded from login (saved 12h).");
+        } catch (err) {
+          updateCookieStatus(err.message || "Failed to read login state.", true);
+        }
+      }
+
+      parseBtn.addEventListener("click", parseAll);
+      downloadBtn.addEventListener("click", downloadAll);
+      clearBtn.addEventListener("click", clearAll);
+      saveCookieBtn.addEventListener("click", saveCookie);
+      clearCookieBtn.addEventListener("click", clearCookie);
+      loginOpenBtn.addEventListener("click", openLoginBrowser);
+      loginReadBtn.addEventListener("click", readLoginCookie);
+
+      loadCachedCookie();
+    </script>
+  </body>
+</html>
