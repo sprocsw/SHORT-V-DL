@@ -17,7 +17,7 @@ kill_port_process() {
     local pid
     pid=$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)
     if [[ -n "$pid" ]]; then
-        echo "发现端口 $port 被占用的进程: $pid，正在自动清除..."
+        echo "发现端口 ${port} 被占用的进程: ${pid}，正在自动清除..."
         for p in $pid; do
             kill -9 "$p" 2>/dev/null || true
         done

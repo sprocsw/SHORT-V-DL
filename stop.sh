@@ -27,7 +27,7 @@ kill_port_process() {
     local pid
     pid=$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)
     if [[ -n "$pid" ]]; then
-        echo "强制清理端口 $port 的驻留进程 ($pid)..."
+        echo "强制清理端口 ${port} 的驻留进程 (${pid})..."
         for p in $pid; do
             kill -9 "$p" 2>/dev/null || true
         done
