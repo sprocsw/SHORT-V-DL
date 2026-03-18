@@ -44,9 +44,10 @@ echo "正在检查和安装后端环境与浏览器内核..."
 echo "👉 (如果这是首次运行，后台需要静默下载数百MB的浏览器依赖，请耐心等待 1~3 分钟，切勿关闭...)"
 cd "$ROOT_DIR/src/modules/media-crawler"
 # 启动 API 服务，确保使用 .venv 环境
+echo "正在启动后台 API 服务 (Port $API_PORT)..."
 if command -v uv >/dev/null 2>&1; then
-    uv sync > /dev/null 2>&1
-    uv run playwright install > /dev/null 2>&1
+    uv sync > /dev/null 2>&1 || true
+    uv run playwright install > /dev/null 2>&1 || true
     nohup uv run python ../web-api/main.py --port "$API_PORT" > "$API_LOG" 2>&1 &
 else
     .venv/bin/python -m pip install -r requirements.txt > /dev/null 2>&1 || true
